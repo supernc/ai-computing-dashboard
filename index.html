@@ -9,6 +9,17 @@
 </head>
 <body>
   <div id="dashboard">
+    <!-- 粒子动画层 -->
+    <div class="particles">
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+      <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    </div>
+    <!-- 扫光线 -->
+    <div class="scanline"></div>
+
     <!-- ===== 顶部通栏 ===== -->
     <div class="header">
       <div class="header-time" id="header-time"></div>
@@ -16,7 +27,42 @@
         <h1>城市智算中心运营驾驶舱</h1>
         <div class="subtitle">国家新一代人工智能公共算力开放创新平台</div>
       </div>
-      <div class="header-line"></div>
+      <!-- SVG 装饰线 -->
+      <div class="header-line">
+        <svg width="100%" height="12" viewBox="0 0 1920 12" preserveAspectRatio="none" style="position:absolute;top:-5px;left:0;">
+          <!-- 中心菱形 -->
+          <polygon points="960,0 966,6 960,12 954,6" fill="#00E4FF" opacity="0.8"/>
+          <!-- 左侧线条 -->
+          <line x1="950" y1="6" x2="600" y2="6" stroke="url(#lineGradL)" stroke-width="1.5"/>
+          <line x1="600" y1="6" x2="580" y2="3" stroke="rgba(0,228,255,0.3)" stroke-width="1"/>
+          <line x1="580" y1="3" x2="200" y2="3" stroke="url(#lineGradL2)" stroke-width="1"/>
+          <polygon points="200,1 204,3 200,5" fill="rgba(0,228,255,0.4)"/>
+          <!-- 右侧线条 -->
+          <line x1="970" y1="6" x2="1320" y2="6" stroke="url(#lineGradR)" stroke-width="1.5"/>
+          <line x1="1320" y1="6" x2="1340" y2="3" stroke="rgba(0,228,255,0.3)" stroke-width="1"/>
+          <line x1="1340" y1="3" x2="1720" y2="3" stroke="url(#lineGradR2)" stroke-width="1"/>
+          <polygon points="1720,1 1716,3 1720,5" fill="rgba(0,228,255,0.4)"/>
+          <!-- 渐变定义 -->
+          <defs>
+            <linearGradient id="lineGradL" x1="950" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00E4FF" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#00E4FF" stop-opacity="0.2"/>
+            </linearGradient>
+            <linearGradient id="lineGradL2" x1="580" y1="0" x2="200" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00E4FF" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#00E4FF" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="lineGradR" x1="970" y1="0" x2="1320" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00E4FF" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#00E4FF" stop-opacity="0.2"/>
+            </linearGradient>
+            <linearGradient id="lineGradR2" x1="1340" y1="0" x2="1720" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00E4FF" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#00E4FF" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
       <div class="kpi-row">
         <div class="kpi-card" id="kpi-flops">
           <span class="kpi-label">总算力</span>
@@ -61,8 +107,10 @@
     <div class="content">
       <!-- 左上：算力资源总览 -->
       <div class="panel" id="panel-lt">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
         <div class="panel-title">
-          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M20 8h-3V6c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10h20V10c0-1.1-.9-2-2-2zM9 6h6v2H9V6zm11 14H4v-8h16v8z"/></svg></span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="#00E4FF" stroke-width="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="#00E4FF" stroke-width="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="#00E4FF" stroke-width="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="#00E4FF" stroke-width="1.5"/><circle cx="6.5" cy="6.5" r="1.5" fill="#00E4FF"/><circle cx="17.5" cy="6.5" r="1.5" fill="#00E4FF"/></svg></span>
           算力资源总览
         </div>
         <div class="panel-body">
@@ -95,8 +143,10 @@
 
       <!-- 右上：业务与租户排行 -->
       <div class="panel" id="panel-rt">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
         <div class="panel-title">
-          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg></span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 20h18" stroke="#00E4FF" stroke-width="1.5" stroke-linecap="round"/><path d="M6 16V10" stroke="#00E4FF" stroke-width="2" stroke-linecap="round"/><path d="M10 16V7" stroke="#00E4FF" stroke-width="2" stroke-linecap="round"/><path d="M14 16V4" stroke="#00E4FF" stroke-width="2" stroke-linecap="round"/><path d="M18 16V9" stroke="#00E4FF" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="4" r="1.5" fill="#00E4FF"/></svg></span>
           业务与租户排行
         </div>
         <div class="panel-body">
@@ -125,8 +175,10 @@
 
       <!-- 左下：机房动环与硬件健康 -->
       <div class="panel" id="panel-lb">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
         <div class="panel-title">
-          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg></span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="#00E4FF" stroke-width="1.5"/><path d="M8 12h2l1-3 2 6 1-3h2" stroke="#00E4FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="4" r="1" fill="#00E4FF"/><circle cx="12" cy="20" r="1" fill="#00E4FF"/></svg></span>
           机房动环与硬件健康
         </div>
         <div class="panel-body">
@@ -159,8 +211,10 @@
 
       <!-- 右下：任务调度与趋势 -->
       <div class="panel" id="panel-rb">
+        <div class="panel-corner tl"></div><div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div><div class="panel-corner br"></div>
         <div class="panel-title">
-          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg></span>
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#00E4FF" stroke-width="1.5"/><path d="M12 7v5l3.5 3.5" stroke="#00E4FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 3.5l1 2" stroke="#00E4FF" stroke-width="1" stroke-linecap="round"/><path d="M7.5 3.5l-1 2" stroke="#00E4FF" stroke-width="1" stroke-linecap="round"/></svg></span>
           任务调度与趋势
         </div>
         <div class="panel-body">
@@ -184,6 +238,17 @@
     </div>
   </div>
 
+  <!-- 模态弹窗 -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <span class="modal-title" id="modal-title"></span>
+        <span class="modal-close" id="modal-close">&times;</span>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/config.js"></script>
   <script src="js/mockData.js"></script>
@@ -193,6 +258,7 @@
   <script src="js/charts/rightTop.js"></script>
   <script src="js/charts/leftBottom.js"></script>
   <script src="js/charts/rightBottom.js"></script>
+  <script src="js/interaction.js"></script>
   <script>
     // 时间更新
     function updateTime() {
@@ -228,6 +294,9 @@
       initRightBottom();
 
       setInterval(refreshAll, CONFIG.refreshInterval);
+
+      // 初始化交互功能
+      Interaction.init();
     });
 
     // 窗口大小变化时重新适配图表
