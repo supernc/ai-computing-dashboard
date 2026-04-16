@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智算中心运营大屏</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+  <div id="dashboard">
+    <!-- ===== 顶部通栏 ===== -->
+    <div class="header">
+      <div class="header-time" id="header-time"></div>
+      <div class="header-title">
+        <h1>城市智算中心运营驾驶舱</h1>
+        <div class="subtitle">国家新一代人工智能公共算力开放创新平台</div>
+      </div>
+      <div class="header-line"></div>
+      <div class="kpi-row">
+        <div class="kpi-card" id="kpi-flops">
+          <span class="kpi-label">总算力</span>
+          <div class="kpi-value"><span class="kpi-num">1200</span><span class="kpi-unit">PFLOPS</span></div>
+        </div>
+        <div class="kpi-card" id="kpi-servers">
+          <span class="kpi-label">在线服务器</span>
+          <div class="kpi-value"><span class="kpi-num">2,856</span><span class="kpi-unit">台</span></div>
+        </div>
+        <div class="kpi-card" id="kpi-gpus">
+          <span class="kpi-label">GPU 卡数</span>
+          <div class="kpi-value"><span class="kpi-num">8,960</span><span class="kpi-unit">张</span></div>
+        </div>
+        <div class="kpi-card" id="kpi-racks">
+          <span class="kpi-label">总机架数</span>
+          <div class="kpi-value"><span class="kpi-num">420</span><span class="kpi-unit">个</span></div>
+        </div>
+        <div class="kpi-card" id="kpi-available">
+          <span class="kpi-label">可用算力</span>
+          <div class="kpi-value"><span class="kpi-num">1080</span><span class="kpi-unit">PFLOPS</span></div>
+        </div>
+        <div class="kpi-card" id="kpi-pue">
+          <span class="kpi-label">PUE 值</span>
+          <div class="kpi-value"><span class="kpi-num">1.18</span><span class="kpi-unit"></span></div>
+        </div>
+        <div class="kpi-card" id="kpi-saving">
+          <span class="kpi-label">年均节电</span>
+          <div class="kpi-value"><span class="kpi-num">3200</span><span class="kpi-unit">万度</span></div>
+        </div>
+        <div class="kpi-card" id="kpi-tenants">
+          <span class="kpi-label">租户接入</span>
+          <div class="kpi-value"><span class="kpi-num">186</span><span class="kpi-unit">家</span></div>
+        </div>
+        <div class="kpi-card" id="kpi-tasks">
+          <span class="kpi-label">运行任务</span>
+          <div class="kpi-value"><span class="kpi-num">4,327</span><span class="kpi-unit">个</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 四宫格内容区 ===== -->
+    <div class="content">
+      <!-- 左上：算力资源总览 -->
+      <div class="panel" id="panel-lt">
+        <div class="panel-title">
+          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M20 8h-3V6c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v10h20V10c0-1.1-.9-2-2-2zM9 6h6v2H9V6zm11 14H4v-8h16v8z"/></svg></span>
+          算力资源总览
+        </div>
+        <div class="panel-body">
+          <div class="lt-grid">
+            <div class="chart-box">
+              <div class="sub-title">算力集群分布</div>
+              <div id="chart-cluster" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="chart-box">
+              <div class="sub-title">算力利用率</div>
+              <div id="chart-util-ring" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="chart-box" style="grid-column:1/-1">
+              <div class="sub-title">GPU 资源池占用</div>
+              <div id="chart-gpu-bar" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="lt-quota">
+              <div class="quota-item" id="quota-virtual">
+                <div class="quota-head"><span>虚拟化配额</span><span class="quota-val">78%</span></div>
+                <div class="quota-bar"><div class="quota-bar-fill" style="width:78%"></div></div>
+              </div>
+              <div class="quota-item" id="quota-container">
+                <div class="quota-head"><span>容器配额</span><span class="quota-val">85%</span></div>
+                <div class="quota-bar"><div class="quota-bar-fill" style="width:85%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右上：业务与租户排行 -->
+      <div class="panel" id="panel-rt">
+        <div class="panel-title">
+          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg></span>
+          业务与租户排行
+        </div>
+        <div class="panel-body">
+          <div class="rt-grid">
+            <div class="chart-box">
+              <div class="sub-title">政企算力占用 TOP10</div>
+              <div id="chart-tenant-rank" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="chart-box">
+              <div class="sub-title">任务类型占比</div>
+              <div id="chart-task-type" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="rt-bottom">
+              <div>
+                <div class="sub-title">费用消耗 TOP5</div>
+                <div id="cost-ranking-list"></div>
+              </div>
+              <div>
+                <div class="sub-title">项目交付状态</div>
+                <div id="project-status"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 左下：机房动环与硬件健康 -->
+      <div class="panel" id="panel-lb">
+        <div class="panel-title">
+          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg></span>
+          机房动环与硬件健康
+        </div>
+        <div class="panel-body">
+          <div class="lb-grid">
+            <div class="chart-box">
+              <div class="sub-title">机柜温度云图</div>
+              <div id="chart-heatmap" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="chart-box">
+              <div class="sub-title">PUE 实时曲线（24h）</div>
+              <div id="chart-pue" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="lb-bottom">
+              <div>
+                <div class="sub-title">配电与环境</div>
+                <div id="power-status"></div>
+              </div>
+              <div>
+                <div class="sub-title">服务器状态</div>
+                <div id="server-status"></div>
+              </div>
+              <div>
+                <div class="sub-title">告警等级</div>
+                <div id="alert-status"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右下：任务调度与趋势 -->
+      <div class="panel" id="panel-rb">
+        <div class="panel-title">
+          <span class="icon"><svg viewBox="0 0 24 24"><path fill="#00E4FF" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg></span>
+          任务调度与趋势
+        </div>
+        <div class="panel-body">
+          <div class="rb-grid">
+            <div id="job-queue"></div>
+            <div class="chart-box">
+              <div class="sub-title">24h 算力负载趋势</div>
+              <div id="chart-load-trend" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div class="chart-box">
+              <div class="sub-title">近 7 日任务完成量</div>
+              <div id="chart-weekly" style="width:100%;height:calc(100% - 20px)"></div>
+            </div>
+            <div>
+              <div class="sub-title">网络流量概览</div>
+              <div id="network-traffic"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/mockData.js"></script>
+  <script src="js/scale.js"></script>
+  <script src="js/charts/header.js"></script>
+  <script src="js/charts/leftTop.js"></script>
+  <script src="js/charts/rightTop.js"></script>
+  <script src="js/charts/leftBottom.js"></script>
+  <script src="js/charts/rightBottom.js"></script>
+  <script>
+    // 时间更新
+    function updateTime() {
+      const now = new Date();
+      const str = now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0') + ' ' +
+        String(now.getHours()).padStart(2, '0') + ':' +
+        String(now.getMinutes()).padStart(2, '0') + ':' +
+        String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('header-time').textContent = str;
+    }
+
+    // 全量刷新
+    function refreshAll() {
+      updateHeader();
+      updateLeftTop();
+      updateRightTop();
+      updateLeftBottom();
+      updateRightBottom();
+    }
+
+    // 初始化
+    window.addEventListener('DOMContentLoaded', () => {
+      initScale();
+      updateTime();
+      setInterval(updateTime, 1000);
+
+      initHeader();
+      initLeftTop();
+      initRightTop();
+      initLeftBottom();
+      initRightBottom();
+
+      setInterval(refreshAll, CONFIG.refreshInterval);
+    });
+
+    // 窗口大小变化时重新适配图表
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
+        [chartCluster, chartGPUBar, chartUtilRing, chartTenantBar, chartTaskPie,
+         chartHeatmap, chartPUE, chartLoadTrend, chartWeekly].forEach(c => {
+          if (c) c.resize();
+        });
+      }, 300);
+    });
+  </script>
+</body>
+</html>
